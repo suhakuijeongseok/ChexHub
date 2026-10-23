@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ChexHub Companion</title>
+    <link rel="stylesheet" href="sidepanel.css" />
+  </head>
+  <body>
+    <header>
+      <div class="brand"><span>C</span><div><b>ChexHub</b><small>COMPANION</small></div></div>
+      <button id="refresh" title="새로고침">↻</button>
+    </header>
+    <main>
+      <section class="intro"><p>CURRENT PROFILE</p><h1>이 프로필의 확장 프로그램</h1><span id="summary">불러오는 중…</span></section>
+      <div class="search"><span>⌕</span><input id="query" type="search" placeholder="확장 프로그램 검색" /></div>
+      <div class="filters"><button class="active" data-filter="all">전체</button><button data-filter="enabled">사용 중</button><button data-filter="settings">설정 가능</button></div>
+      <div id="list" class="list"></div>
+      <div id="empty" class="empty" hidden>조건에 맞는 확장 프로그램이 없습니다.</div>
+    </main>
+    <div id="toast" class="toast" hidden></div>
+    <script src="sidepanel.js"></script>
+  </body>
+</html>

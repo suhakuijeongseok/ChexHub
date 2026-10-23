@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "ChexHub Companion",
+  "version": "0.1.0",
+  "description": "Manage extensions and open their settings from the current Chrome profile.",
+  "permissions": ["management", "sidePanel", "tabs"],
+  "action": { "default_title": "ChexHub 열기" },
+  "background": { "service_worker": "service-worker.js" },
+  "side_panel": { "default_path": "sidepanel.html" }
+}
