@@ -4,26 +4,52 @@
   "private": true,
   "type": "module",
   "description": "Manage a shared Chrome extension set across local profiles.",
+  "author": "suhakuijeongseok",
+  "repository": "https://github.com/suhakuijeongseok/ChexHub",
   "main": "electron/main.cjs",
   "scripts": {
     "dev": "concurrently -k \"vite\" \"wait-on http://localhost:5173 && cross-env CHEXHUB_DEV_SERVER=1 electron .\"",
     "build": "vite build",
     "start": "npm run build && electron .",
-    "test": "node --test test/*.test.cjs"
-  },
-  "dependencies": {
-    "@vitejs/plugin-react": "latest",
-    "vite": "latest",
-    "typescript": "latest",
-    "react": "latest",
-    "react-dom": "latest",
-    "electron": "latest",
-    "concurrently": "latest",
-    "cross-env": "latest",
-    "wait-on": "latest"
+    "test": "node --test test/*.test.cjs",
+    "dist:win": "npm run build && electron-builder --win nsis"
   },
   "devDependencies": {
     "@types/react": "latest",
-    "@types/react-dom": "latest"
+    "@types/react-dom": "latest",
+    "@vitejs/plugin-react": "^6.1.2",
+    "concurrently": "^10.0.6",
+    "cross-env": "^10.1.0",
+    "electron": "^45.0.0",
+    "electron-builder": "^26.15.3",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.5",
+    "wait-on": "^9.5.1"
+  },
+  "build": {
+    "appId": "com.chexhub.desktop",
+    "productName": "ChexHub",
+    "asar": true,
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "public/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "build/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "artifactName": "ChexHub-Setup-${version}.${ext}"
+    }
   }
 }

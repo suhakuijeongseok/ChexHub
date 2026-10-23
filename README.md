@@ -23,6 +23,26 @@ npm run dev
 npm start
 ```
 
+## Windows 배포
+
+로컬에서 Windows 설치 파일을 만들려면 다음 명령을 실행합니다.
+
+```powershell
+npm ci
+npm run dist:win
+```
+
+설치 파일은 `release/ChexHub-Setup-<버전>.exe`에 생성됩니다.
+
+GitHub Release는 `v`로 시작하는 태그를 푸시하면 자동으로 생성됩니다.
+
+```powershell
+git tag v0.1.0
+git push origin v0.1.0
+```
+
+공개 배포에서 Windows의 게시자 경고를 제거하려면 별도의 코드 서명 인증서가 필요합니다.
+
 ## 안전 원칙
 
 - Chrome 프로필 파일은 읽기만 합니다.
