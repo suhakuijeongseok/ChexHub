@@ -5,7 +5,7 @@ button, input { font: inherit; }
 button { cursor: pointer; }
 header { position: sticky; top: 0; z-index: 5; height: 64px; padding: 0 16px; display: flex; justify-content: space-between; align-items: center; background: #172019; color: white; }
 .brand { display: flex; align-items: center; gap: 9px; }
-.brand > img { width: 34px; height: 34px; padding: 2px; object-fit: cover; border-radius: 9px; background: #d8fb49; }
+.brand > img { display: block; width: 34px; height: 34px; padding: 0; object-fit: cover; border-radius: 9px; background: transparent; }
 .brand div { display: grid; }
 .brand b { font-size: 14px; }
 .brand small { color: #9aaa9c; font-size: 8px; letter-spacing: 1.3px; }
