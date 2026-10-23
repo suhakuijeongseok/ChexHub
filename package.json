@@ -12,7 +12,7 @@
     "build": "vite build",
     "start": "npm run build && electron .",
     "test": "node --test test/*.test.cjs",
-    "dist:win": "npm run build && electron-builder --win nsis"
+    "dist:win": "npm run build && electron-builder --win nsis --publish never"
   },
   "devDependencies": {
     "@types/react": "latest",
