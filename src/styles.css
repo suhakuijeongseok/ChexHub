@@ -2,16 +2,19 @@
 
 :root { font-family: 'DM Sans', sans-serif; color: #172019; background: #f3f2ec; font-synthesis: none; }
 * { box-sizing: border-box; }
-body { margin: 0; min-width: 980px; min-height: 100vh; }
+html, body, #root { height: 100%; overflow: hidden; }
+body { margin: 0; min-width: 980px; }
 button, input { font: inherit; }
 button { cursor: pointer; }
-.app-shell { display: grid; grid-template-columns: 218px minmax(620px, 1fr) 280px; min-height: 100vh; }
+.app-shell { display: grid; grid-template-columns: 218px minmax(620px, 1fr) 280px; height: 100vh; overflow: hidden; }
 .sidebar { position: sticky; top: 0; height: 100vh; padding: 30px 22px; background: #172019; color: #eef3e9; display: flex; flex-direction: column; }
 .brand { display: flex; align-items: center; gap: 11px; font: 800 20px 'Manrope'; letter-spacing: -.5px; margin-bottom: 48px; }
 .brand-mark { display: grid; place-items: center; width: 34px; height: 34px; background: transparent; border-radius: 9px; overflow: hidden; }
 .brand-mark img { display: block; width: 34px; height: 34px; object-fit: cover; border-radius: 9px; }
 nav { display: grid; gap: 8px; }
 .nav-item { width: 100%; padding: 12px 14px; border: 0; border-radius: 10px; background: transparent; color: #aebaae; text-align: left; display: flex; gap: 10px; align-items: center; }
+.nav-item > span:first-child { width: 18px; display: inline-grid; place-items: center; font-size: 18px; line-height: 1; }
+.nav-item:nth-child(2) > span:first-child { font-size: 23px; transform: translateY(-1px); }
 .nav-item.active { background: #2a352c; color: white; }
 .nav-item:disabled { cursor: default; opacity: .7; }
 .nav-item em { margin-left: auto; font-size: 9px; font-style: normal; padding: 3px 5px; border: 1px solid #526054; border-radius: 4px; }
@@ -19,7 +22,7 @@ nav { display: grid; gap: 8px; }
 .sidebar-foot p, .eyebrow { margin: 0; color: #768278; font: 700 10px 'Manrope'; letter-spacing: 1.6px; }
 .sidebar-foot span { font-size: 13px; }
 .sidebar-foot small { color: #6e7b70; font-size: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-main { padding: 42px 38px 60px; overflow: hidden; }
+main { height: 100vh; padding: 42px 38px 38px; overflow: hidden; }
 header { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; }
 header h1 { margin: 8px 0 0; max-width: 680px; font: 800 32px/1.15 'Manrope'; letter-spacing: -1.2px; }
 .refresh { border: 1px solid #cfd3ca; background: #fff; border-radius: 10px; padding: 10px 14px; white-space: nowrap; }
@@ -31,7 +34,7 @@ header h1 { margin: 8px 0 0; max-width: 680px; font: 800 32px/1.15 'Manrope'; le
 .stats strong { font: 800 27px 'Manrope'; margin: 7px 0 1px; }
 .stats small { color: #929993; font-size: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .stats .accent small, .stats .accent span { color: #52600f; }
-.workspace { background: #fff; border: 1px solid #dfdfd7; border-radius: 16px; overflow: hidden; box-shadow: 0 14px 45px rgba(31,40,32,.05); }
+.workspace { height: calc(100vh - 290px); min-height: 0; display: flex; flex-direction: column; background: #fff; border: 1px solid #dfdfd7; border-radius: 16px; overflow: hidden; box-shadow: 0 14px 45px rgba(31,40,32,.05); }
 .toolbar { padding: 20px 22px; display: flex; justify-content: space-between; gap: 20px; align-items: center; border-bottom: 1px solid #e9e9e3; }
 .toolbar h2 { margin: 0 0 4px; font: 700 18px 'Manrope'; }
 .toolbar p { margin: 0; color: #798079; font-size: 12px; }
@@ -45,7 +48,7 @@ header h1 { margin: 8px 0 0; max-width: 680px; font: 800 32px/1.15 'Manrope'; le
 .profile-strip label > span:last-child { min-width: 0; display: grid; }
 .profile-strip b { font-size: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .profile-strip small { color: #858d86; font-size: 9px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.table-wrap { overflow: auto; max-height: calc(100vh - 390px); min-height: 300px; }
+.table-wrap { flex: 1; min-height: 0; overflow: auto; }
 table { width: 100%; border-collapse: separate; border-spacing: 0; }
 th { position: sticky; top: 0; z-index: 2; background: #f7f7f3; color: #737b74; font-size: 10px; font-weight: 600; padding: 11px; border-bottom: 1px solid #e5e5df; min-width: 82px; }
 th:first-child { text-align: left; left: 0; z-index: 3; min-width: 270px; padding-left: 22px; }
@@ -86,8 +89,8 @@ td small { color: #9a9f9a; font-size: 9px; overflow: hidden; text-overflow: elli
 .no-selection h3 { margin-bottom: 6px; color: #4d554f; }
 .no-selection p { font-size: 11px; line-height: 1.5; }
 .toast { position: absolute; left: 18px; right: 18px; bottom: 22px; padding: 14px; border-radius: 10px; background: #d8fb49; color: #26300a; font-size: 11px; line-height: 1.45; box-shadow: 0 8px 25px rgba(34,44,25,.15); cursor: pointer; }
-.sets-workspace { display: grid; grid-template-columns: 250px minmax(0, 1fr); min-height: calc(100vh - 145px); margin-top: 32px; background: white; border: 1px solid #dfdfd7; border-radius: 16px; overflow: hidden; box-shadow: 0 14px 45px rgba(31,40,32,.05); }
-.sets-list { padding: 18px 14px; background: #f7f7f2; border-right: 1px solid #e0e1d9; }
+.sets-workspace { display: grid; grid-template-columns: 250px minmax(0, 1fr); height: calc(100vh - 177px); min-height: 0; margin-top: 32px; background: white; border: 1px solid #dfdfd7; border-radius: 16px; overflow: hidden; box-shadow: 0 14px 45px rgba(31,40,32,.05); }
+.sets-list { padding: 18px 14px; overflow-y: auto; background: #f7f7f2; border-right: 1px solid #e0e1d9; }
 .sets-list-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 0 4px 16px; }
 .sets-list-head h2 { margin: 0; font: 700 15px 'Manrope'; }
 .sets-list-head p { margin: 3px 0 0; color: #8b928c; font-size: 10px; }
@@ -112,7 +115,7 @@ td small { color: #9a9f9a; font-size: 9px; overflow: hidden; text-overflow: elli
 .set-filter { padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e9e9e3; }
 .set-filter b { font-size: 12px; }
 .set-filter input { width: 190px; padding: 8px 10px; border: 1px solid #d9ddd5; border-radius: 8px; outline: none; font-size: 11px; }
-.extension-picker { padding: 10px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; overflow-y: auto; max-height: calc(100vh - 380px); }
+.extension-picker { min-height: 0; padding: 10px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; overflow-y: auto; }
 .extension-picker label { min-width: 0; padding: 10px; display: flex; align-items: center; gap: 9px; border: 1px solid #e4e5df; border-radius: 10px; cursor: pointer; }
 .extension-picker label:hover { background: #fafbef; border-color: #cfd79e; }
 .extension-picker input { accent-color: #75860d; }
@@ -124,14 +127,14 @@ td small { color: #9a9f9a; font-size: 9px; overflow: hidden; text-overflow: elli
 .set-summary > span img { width: 48px; height: 48px; object-fit: contain; }
 .set-summary h3 { margin: 0; font: 700 18px 'Manrope'; }
 .set-summary p { margin: 6px 0; color: #858c86; font-size: 10px; }
-.discover-workspace { min-height: calc(100vh - 145px); margin-top: 32px; display: flex; flex-direction: column; background: white; border: 1px solid #dfdfd7; border-radius: 16px; overflow: hidden; box-shadow: 0 14px 45px rgba(31,40,32,.05); }
+.discover-workspace { height: calc(100vh - 177px); min-height: 0; margin-top: 32px; display: flex; flex-direction: column; background: white; border: 1px solid #dfdfd7; border-radius: 16px; overflow: hidden; box-shadow: 0 14px 45px rgba(31,40,32,.05); }
 .discover-toolbar { padding: 18px 20px 14px; border-bottom: 1px solid #e9e9e3; }
 .discover-search { display: flex; gap: 8px; }
 .discover-search input { flex: 1; min-width: 0; padding: 11px 13px; border: 1px solid #d4d8d0; border-radius: 9px; outline: none; }
 .discover-search input:focus { border-color: #8fa50b; box-shadow: 0 0 0 3px #eef8bc; }
 .discover-search button { padding: 0 16px; border: 0; border-radius: 9px; background: #172019; color: white; font-weight: 700; }
 .discover-toolbar p { margin: 9px 1px 0; color: #858c86; font-size: 10px; }
-.store-frame { position: relative; flex: 1; min-height: 470px; background: #f7f7f3; }
+.store-frame { position: relative; flex: 1; min-height: 0; background: #f7f7f3; }
 .store-placeholder { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; color: #8b928c; text-align: center; }
 .store-placeholder > span { font-size: 38px; color: #b5bbb5; }
 .store-placeholder h3 { margin: 9px 0 4px; color: #59615b; }
