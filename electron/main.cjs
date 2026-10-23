@@ -103,7 +103,7 @@ function createWindow() {
   const ensureStoreView = () => {
     if (storeView) return storeView;
     storeView = new WebContentsView({ webPreferences: { partition: 'persist:chexhub-store', sandbox: true, contextIsolation: true, nodeIntegration: false } });
-    storeView.webContents.setZoomFactor(0.72);
+    storeView.webContents.setZoomFactor(0.65);
     storeView.webContents.session.setPermissionRequestHandler((_webContents, _permission, callback) => callback(false));
     storeView.webContents.setWindowOpenHandler(({ url }) => {
       if (url.startsWith('https://chromewebstore.google.com/')) storeView.webContents.loadURL(url);
@@ -111,14 +111,27 @@ function createWindow() {
     });
     const reportNavigation = (_event, url) => win.webContents.send('store:navigated', { url });
     storeView.webContents.on('did-finish-load', async () => {
-      storeView.webContents.setZoomFactor(0.72);
+      storeView.webContents.setZoomFactor(0.65);
       const url = storeView.webContents.getURL();
       try {
-        const metadata = await storeView.webContents.executeJavaScript(`(() => {
+        const metadata = await storeView.webContents.executeJavaScript(`(async () => {
+          await new Promise((resolve) => setTimeout(resolve, 1200));
           const value = (selector, attribute = 'content') => document.querySelector(selector)?.getAttribute(attribute) || '';
+          document.documentElement.style.setProperty('overflow-x', 'hidden', 'important');
+          document.body.style.setProperty('overflow-x', 'hidden', 'important');
+          const heading = [...document.querySelectorAll('h1, h2')].find((element) => {
+            const rect = element.getBoundingClientRect();
+            return rect.width > 0 && rect.height > 0;
+          });
+          const icon = heading ? [...document.images]
+            .filter((image) => {
+              const rect = image.getBoundingClientRect();
+              return rect.width >= 32 && rect.width <= 160 && Math.abs(rect.width - rect.height) < 12 && rect.left < heading.getBoundingClientRect().left;
+            })
+            .sort((first, second) => Math.abs(first.getBoundingClientRect().top - heading.getBoundingClientRect().top) - Math.abs(second.getBoundingClientRect().top - heading.getBoundingClientRect().top))[0] : null;
           return {
-            name: value('meta[property="og:title"]') || document.title.replace(/ - Chrome Web Store$/, ''),
-            iconUrl: value('meta[property="og:image"]') || value('link[rel="icon"]', 'href')
+            name: heading?.textContent?.trim() || value('meta[property="og:title"]') || document.title.replace(/ - Chrome Web Store$/, ''),
+            iconUrl: icon?.currentSrc || icon?.src || value('meta[property="og:image"]')
           };
         })()`);
         win.webContents.send('store:navigated', { url, ...metadata });

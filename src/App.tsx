@@ -500,11 +500,8 @@ function App() {
           )
         ) : storeExtensionId ? (
           <>
-            <div className="store-selected-logo">
-              <span className="extension-logo large">{storeSelection?.iconUrl ? <img src={storeSelection.iconUrl} alt="" /> : "＋"}</span>
-            </div>
             <div className="set-summary">
-              <span>＋</span>
+              <span>{storeSelection?.iconUrl ? <img src={storeSelection.iconUrl} alt="" /> : "＋"}</span>
               <h3>{storeSelection?.name || "선택한 확장 설치"}</h3>
               <p>{storeExtensionId}</p>
             </div>
