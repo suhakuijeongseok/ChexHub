@@ -1,0 +1,29 @@
+{
+  "name": "chexhub",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Manage a shared Chrome extension set across local profiles.",
+  "main": "electron/main.cjs",
+  "scripts": {
+    "dev": "concurrently -k \"vite\" \"wait-on http://localhost:5173 && cross-env CHEXHUB_DEV_SERVER=1 electron .\"",
+    "build": "vite build",
+    "start": "npm run build && electron .",
+    "test": "node --test test/*.test.cjs"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "latest",
+    "vite": "latest",
+    "typescript": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "electron": "latest",
+    "concurrently": "latest",
+    "cross-env": "latest",
+    "wait-on": "latest"
+  },
+  "devDependencies": {
+    "@types/react": "latest",
+    "@types/react-dom": "latest"
+  }
+}
