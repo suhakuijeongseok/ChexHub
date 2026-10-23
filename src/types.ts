@@ -30,6 +30,12 @@ export type SharedSet = {
   updatedAt: string;
 };
 
+export type StoreSelection = {
+  url: string;
+  name?: string;
+  iconUrl?: string;
+};
+
 declare global {
   interface Window {
     chexhub: {
@@ -42,7 +48,7 @@ declare global {
       showStore(query: string, bounds: { x: number; y: number; width: number; height: number }): void;
       resizeStore(bounds: { x: number; y: number; width: number; height: number }): void;
       hideStore(): void;
-      onStoreNavigate(callback: (url: string) => void): () => void;
+      onStoreNavigate(callback: (selection: StoreSelection) => void): () => void;
     };
   }
 }

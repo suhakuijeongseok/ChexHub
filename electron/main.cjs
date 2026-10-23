@@ -109,8 +109,23 @@ function createWindow() {
       if (url.startsWith('https://chromewebstore.google.com/')) storeView.webContents.loadURL(url);
       return { action: 'deny' };
     });
-    const reportNavigation = (_event, url) => win.webContents.send('store:navigated', url);
-    storeView.webContents.on('did-finish-load', () => storeView.webContents.setZoomFactor(0.72));
+    const reportNavigation = (_event, url) => win.webContents.send('store:navigated', { url });
+    storeView.webContents.on('did-finish-load', async () => {
+      storeView.webContents.setZoomFactor(0.72);
+      const url = storeView.webContents.getURL();
+      try {
+        const metadata = await storeView.webContents.executeJavaScript(`(() => {
+          const value = (selector, attribute = 'content') => document.querySelector(selector)?.getAttribute(attribute) || '';
+          return {
+            name: value('meta[property="og:title"]') || document.title.replace(/ - Chrome Web Store$/, ''),
+            iconUrl: value('meta[property="og:image"]') || value('link[rel="icon"]', 'href')
+          };
+        })()`);
+        win.webContents.send('store:navigated', { url, ...metadata });
+      } catch {
+        win.webContents.send('store:navigated', { url });
+      }
+    });
     storeView.webContents.on('did-navigate', reportNavigation);
     storeView.webContents.on('did-navigate-in-page', reportNavigation);
     return storeView;

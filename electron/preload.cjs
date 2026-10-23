@@ -11,7 +11,7 @@ contextBridge.exposeInMainWorld('chexhub', {
   resizeStore: (bounds) => ipcRenderer.send('store:bounds', bounds),
   hideStore: () => ipcRenderer.send('store:hide'),
   onStoreNavigate: (callback) => {
-    const listener = (_event, url) => callback(url);
+    const listener = (_event, selection) => callback(selection);
     ipcRenderer.on('store:navigated', listener);
     return () => ipcRenderer.removeListener('store:navigated', listener);
   },
