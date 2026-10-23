@@ -4,6 +4,11 @@ const fs = require('node:fs');
 const { spawn } = require('node:child_process');
 const { scanChrome } = require('./scanner.cjs');
 
+const appIconPath = path.join(__dirname, '..', 'public', 'chexhub-logo.png');
+
+app.setName('ChexHub');
+if (process.platform === 'win32') app.setAppUserModelId('com.chexhub.desktop');
+
 function setsFilePath() {
   return path.join(app.getPath('userData'), 'shared-sets.json');
 }
@@ -82,6 +87,7 @@ function createWindow() {
     minWidth: 980,
     minHeight: 680,
     backgroundColor: '#f4f3ee',
+    icon: appIconPath,
     titleBarStyle: 'hiddenInset',
     webPreferences: {
       preload: path.join(__dirname, 'preload.cjs'),
