@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, shell } = require('electron');
+const { app, BrowserWindow, WebContentsView, ipcMain, shell } = require('electron');
 const path = require('node:path');
 const fs = require('node:fs');
 const { spawn } = require('node:child_process');
@@ -91,6 +91,48 @@ function createWindow() {
   });
   if (process.env.CHEXHUB_DEV_SERVER === '1') win.loadURL('http://localhost:5173');
   else win.loadFile(path.join(__dirname, '..', 'dist', 'index.html'));
+
+  let storeView = null;
+  let storeVisible = false;
+  const safeBounds = (bounds) => ({
+    x: Math.max(0, Math.round(Number(bounds?.x) || 0)),
+    y: Math.max(0, Math.round(Number(bounds?.y) || 0)),
+    width: Math.max(100, Math.round(Number(bounds?.width) || 100)),
+    height: Math.max(100, Math.round(Number(bounds?.height) || 100)),
+  });
+  const ensureStoreView = () => {
+    if (storeView) return storeView;
+    storeView = new WebContentsView({ webPreferences: { partition: 'persist:chexhub-store', sandbox: true, contextIsolation: true, nodeIntegration: false } });
+    storeView.webContents.session.setPermissionRequestHandler((_webContents, _permission, callback) => callback(false));
+    storeView.webContents.setWindowOpenHandler(({ url }) => {
+      if (url.startsWith('https://chromewebstore.google.com/')) storeView.webContents.loadURL(url);
+      return { action: 'deny' };
+    });
+    const reportNavigation = (_event, url) => win.webContents.send('store:navigated', url);
+    storeView.webContents.on('did-navigate', reportNavigation);
+    storeView.webContents.on('did-navigate-in-page', reportNavigation);
+    return storeView;
+  };
+  const showStore = (event, payload) => {
+    if (event.sender !== win.webContents) return;
+    const view = ensureStoreView();
+    if (!storeVisible) { win.contentView.addChildView(view); storeVisible = true; }
+    view.setBounds(safeBounds(payload.bounds));
+    const query = String(payload.query || '').trim();
+    const url = query ? `https://chromewebstore.google.com/search/${encodeURIComponent(query)}` : 'https://chromewebstore.google.com/category/extensions';
+    view.webContents.loadURL(url);
+  };
+  const resizeStore = (event, bounds) => { if (event.sender === win.webContents && storeView) storeView.setBounds(safeBounds(bounds)); };
+  const hideStore = (event) => { if (event.sender === win.webContents && storeView && storeVisible) { win.contentView.removeChildView(storeView); storeVisible = false; } };
+  ipcMain.on('store:show', showStore);
+  ipcMain.on('store:bounds', resizeStore);
+  ipcMain.on('store:hide', hideStore);
+  win.on('closed', () => {
+    ipcMain.removeListener('store:show', showStore);
+    ipcMain.removeListener('store:bounds', resizeStore);
+    ipcMain.removeListener('store:hide', hideStore);
+    if (storeView) storeView.webContents.close();
+  });
 }
 
 app.whenReady().then(() => {

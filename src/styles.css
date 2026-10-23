@@ -123,4 +123,16 @@ td small { color: #9a9f9a; font-size: 9px; overflow: hidden; text-overflow: elli
 .set-summary > span { width: 68px; height: 68px; margin: 0 auto 15px; display: grid; place-items: center; border-radius: 18px; background: #172019; color: #d8fb49; font-size: 30px; }
 .set-summary h3 { margin: 0; font: 700 18px 'Manrope'; }
 .set-summary p { margin: 6px 0; color: #858c86; font-size: 10px; }
+.discover-workspace { min-height: calc(100vh - 145px); margin-top: 32px; display: flex; flex-direction: column; background: white; border: 1px solid #dfdfd7; border-radius: 16px; overflow: hidden; box-shadow: 0 14px 45px rgba(31,40,32,.05); }
+.discover-toolbar { padding: 18px 20px 14px; border-bottom: 1px solid #e9e9e3; }
+.discover-search { display: flex; gap: 8px; }
+.discover-search input { flex: 1; min-width: 0; padding: 11px 13px; border: 1px solid #d4d8d0; border-radius: 9px; outline: none; }
+.discover-search input:focus { border-color: #8fa50b; box-shadow: 0 0 0 3px #eef8bc; }
+.discover-search button { padding: 0 16px; border: 0; border-radius: 9px; background: #172019; color: white; font-weight: 700; }
+.discover-toolbar p { margin: 9px 1px 0; color: #858c86; font-size: 10px; }
+.store-frame { position: relative; flex: 1; min-height: 470px; background: #f7f7f3; }
+.store-placeholder { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; color: #8b928c; text-align: center; }
+.store-placeholder > span { font-size: 38px; color: #b5bbb5; }
+.store-placeholder h3 { margin: 9px 0 4px; color: #59615b; }
+.store-placeholder p { margin: 0; font-size: 10px; }
 @media (max-width: 1180px) { .app-shell { grid-template-columns: 190px minmax(600px,1fr); } .action-panel { display: none; } main { padding: 36px 26px; } }

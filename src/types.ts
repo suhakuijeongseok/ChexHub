@@ -39,6 +39,10 @@ declare global {
       listSets(): Promise<SharedSet[]>;
       saveSet(set: Partial<SharedSet> & Pick<SharedSet, 'name' | 'extensionIds'>): Promise<SharedSet>;
       deleteSet(id: string): Promise<boolean>;
+      showStore(query: string, bounds: { x: number; y: number; width: number; height: number }): void;
+      resizeStore(bounds: { x: number; y: number; width: number; height: number }): void;
+      hideStore(): void;
+      onStoreNavigate(callback: (url: string) => void): () => void;
     };
   }
 }

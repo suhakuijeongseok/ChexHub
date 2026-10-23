@@ -7,4 +7,12 @@ contextBridge.exposeInMainWorld('chexhub', {
   listSets: () => ipcRenderer.invoke('sets:list'),
   saveSet: (set) => ipcRenderer.invoke('sets:save', set),
   deleteSet: (id) => ipcRenderer.invoke('sets:delete', id),
+  showStore: (query, bounds) => ipcRenderer.send('store:show', { query, bounds }),
+  resizeStore: (bounds) => ipcRenderer.send('store:bounds', bounds),
+  hideStore: () => ipcRenderer.send('store:hide'),
+  onStoreNavigate: (callback) => {
+    const listener = (_event, url) => callback(url);
+    ipcRenderer.on('store:navigated', listener);
+    return () => ipcRenderer.removeListener('store:navigated', listener);
+  },
 });
