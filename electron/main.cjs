@@ -103,12 +103,14 @@ function createWindow() {
   const ensureStoreView = () => {
     if (storeView) return storeView;
     storeView = new WebContentsView({ webPreferences: { partition: 'persist:chexhub-store', sandbox: true, contextIsolation: true, nodeIntegration: false } });
+    storeView.webContents.setZoomFactor(0.72);
     storeView.webContents.session.setPermissionRequestHandler((_webContents, _permission, callback) => callback(false));
     storeView.webContents.setWindowOpenHandler(({ url }) => {
       if (url.startsWith('https://chromewebstore.google.com/')) storeView.webContents.loadURL(url);
       return { action: 'deny' };
     });
     const reportNavigation = (_event, url) => win.webContents.send('store:navigated', url);
+    storeView.webContents.on('did-finish-load', () => storeView.webContents.setZoomFactor(0.72));
     storeView.webContents.on('did-navigate', reportNavigation);
     storeView.webContents.on('did-navigate-in-page', reportNavigation);
     return storeView;
