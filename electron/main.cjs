@@ -115,23 +115,38 @@ function createWindow() {
       const url = storeView.webContents.getURL();
       try {
         const metadata = await storeView.webContents.executeJavaScript(`(async () => {
-          await new Promise((resolve) => setTimeout(resolve, 1200));
           const value = (selector, attribute = 'content') => document.querySelector(selector)?.getAttribute(attribute) || '';
           document.documentElement.style.setProperty('overflow-x', 'hidden', 'important');
           document.body.style.setProperty('overflow-x', 'hidden', 'important');
-          const heading = [...document.querySelectorAll('h1, h2')].find((element) => {
-            const rect = element.getBoundingClientRect();
-            return rect.width > 0 && rect.height > 0;
-          });
-          const icon = heading ? [...document.images]
-            .filter((image) => {
+          const inspect = () => {
+            const headings = [...document.querySelectorAll('h1, h2')].filter((element) => {
+              const rect = element.getBoundingClientRect();
+              return rect.width > 0 && rect.height > 0 && element.textContent?.trim();
+            });
+            const heading = headings.sort((first, second) => parseFloat(getComputedStyle(second).fontSize) - parseFloat(getComputedStyle(first).fontSize))[0];
+            if (!heading) return null;
+            const headingRect = heading.getBoundingClientRect();
+            const images = [...document.images].filter((image) => {
               const rect = image.getBoundingClientRect();
-              return rect.width >= 32 && rect.width <= 160 && Math.abs(rect.width - rect.height) < 12 && rect.left < heading.getBoundingClientRect().left;
-            })
-            .sort((first, second) => Math.abs(first.getBoundingClientRect().top - heading.getBoundingClientRect().top) - Math.abs(second.getBoundingClientRect().top - heading.getBoundingClientRect().top))[0] : null;
+              return rect.width >= 28 && rect.width <= 180 && Math.abs(rect.width - rect.height) < 16 && Math.abs(rect.top - headingRect.top) < 140;
+            });
+            const icon = images.sort((first, second) => {
+              const firstRect = first.getBoundingClientRect();
+              const secondRect = second.getBoundingClientRect();
+              const firstDistance = Math.abs(firstRect.top - headingRect.top) + Math.abs(firstRect.right - headingRect.left);
+              const secondDistance = Math.abs(secondRect.top - headingRect.top) + Math.abs(secondRect.right - headingRect.left);
+              return firstDistance - secondDistance;
+            })[0];
+            return icon ? { name: heading.textContent.trim(), iconUrl: icon.currentSrc || icon.src } : null;
+          };
+          for (let attempt = 0; attempt < 20; attempt += 1) {
+            const result = inspect();
+            if (result?.iconUrl) return result;
+            await new Promise((resolve) => setTimeout(resolve, 500));
+          }
           return {
-            name: heading?.textContent?.trim() || value('meta[property="og:title"]') || document.title.replace(/ - Chrome Web Store$/, ''),
-            iconUrl: icon?.currentSrc || icon?.src || value('meta[property="og:image"]')
+            name: value('meta[property="og:title"]') || document.title.replace(/ - Chrome Web Store$/, ''),
+            iconUrl: value('meta[property="og:image"]')
           };
         })()`);
         win.webContents.send('store:navigated', { url, ...metadata });
