@@ -9,6 +9,7 @@ button { cursor: pointer; }
 .sidebar { position: sticky; top: 0; height: 100vh; padding: 30px 22px; background: #172019; color: #eef3e9; display: flex; flex-direction: column; }
 .brand { display: flex; align-items: center; gap: 11px; font: 800 20px 'Manrope'; letter-spacing: -.5px; margin-bottom: 48px; }
 .brand-mark { display: grid; place-items: center; width: 34px; height: 34px; background: #d8fb49; color: #172019; border-radius: 10px 4px 10px 4px; }
+.brand-mark img { width: 34px; height: 34px; object-fit: cover; border-radius: 9px; }
 nav { display: grid; gap: 8px; }
 .nav-item { width: 100%; padding: 12px 14px; border: 0; border-radius: 10px; background: transparent; color: #aebaae; text-align: left; display: flex; gap: 10px; align-items: center; }
 .nav-item.active { background: #2a352c; color: white; }

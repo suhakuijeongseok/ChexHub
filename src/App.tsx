@@ -92,7 +92,7 @@ function App() {
 
   return <div className="app-shell">
     <aside className="sidebar">
-      <div className="brand"><span className="brand-mark">C</span><span>ChexHub</span></div>
+      <div className="brand"><span className="brand-mark"><img src="./chexhub-logo.png" alt="" /></span><span>ChexHub</span></div>
       <nav><button className={`nav-item ${view === 'extensions' ? 'active' : ''}`} onClick={() => setView('extensions')}><span>⊞</span> 확장 프로그램</button><button className={`nav-item ${view === 'sets' ? 'active' : ''}`} onClick={() => { setView('sets'); setQuery(''); }}><span>◇</span> 공유 세트 <em>{sets.length}</em></button></nav>
       <div className="sidebar-foot"><p>LOCAL CHROME</p><span>{data?.profiles.length || 0} profiles connected</span><small title={data?.userDataDir}>{data?.userDataDir || '프로필 검색 중'}</small></div>
     </aside>

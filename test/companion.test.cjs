@@ -17,4 +17,5 @@ test('companion manifest entry points exist', () => {
   const manifest = JSON.parse(fs.readFileSync(path.join(root, 'manifest.json'), 'utf8'));
   assert.ok(fs.existsSync(path.join(root, manifest.background.service_worker)));
   assert.ok(fs.existsSync(path.join(root, manifest.side_panel.default_path)));
+  assert.ok(fs.existsSync(path.join(root, manifest.icons['128'])));
 });

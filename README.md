@@ -1,3 +1,5 @@
+<p align="center"><img src="public/chexhub-logo.png" width="180" alt="ChexHub" /></p>
+
 # ChexHub
 
 여러 Chrome 프로필의 확장 프로그램 설치 상태를 한 화면에서 비교하고, 누락된 프로필의 Chrome Web Store 설치 페이지를 여는 Windows 데스크톱 앱입니다.

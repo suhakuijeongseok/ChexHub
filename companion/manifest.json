@@ -4,7 +4,8 @@
   "version": "0.1.0",
   "description": "Manage extensions and open their settings from the current Chrome profile.",
   "permissions": ["management", "sidePanel", "tabs"],
-  "action": { "default_title": "ChexHub 열기" },
+  "action": { "default_title": "ChexHub 열기", "default_icon": "icons/chexhub-logo.png" },
   "background": { "service_worker": "service-worker.js" },
-  "side_panel": { "default_path": "sidepanel.html" }
+  "side_panel": { "default_path": "sidepanel.html" },
+  "icons": { "128": "icons/chexhub-logo.png" }
 }
