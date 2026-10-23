@@ -82,6 +82,9 @@ td small { color: #9a9f9a; font-size: 9px; overflow: hidden; text-overflow: elli
 .coverage b { font: 800 18px 'Manrope'; }
 .primary { width: 100%; border: 0; padding: 13px; border-radius: 10px; background: #172019; color: white; font-weight: 700; }
 .primary:hover { background: #2f3b32; }
+.secondary { width: 100%; margin-top: 8px; border: 1px solid #aeb7ad; padding: 12px; border-radius: 10px; background: #fff; color: #263029; font-weight: 700; }
+.secondary:hover:not(:disabled) { background: #f5f7f2; border-color: #7c897e; }
+.secondary:disabled { cursor: not-allowed; opacity: .45; }
 .danger { width: 100%; margin-top: 8px; border: 1px solid #d8b7b1; padding: 12px; border-radius: 10px; background: transparent; color: #9b3424; font-weight: 700; }
 .danger:hover { background: #ffe3dd; border-color: #d4998e; }
 .hint { color: #818881; font-size: 10px; line-height: 1.55; }

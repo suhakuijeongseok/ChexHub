@@ -2,6 +2,7 @@ export type ExtensionInfo = {
   id: string;
   name: string;
   iconDataUrl: string;
+  optionsPage: string;
   version: string;
   enabled: boolean;
   fromWebStore: boolean;
@@ -43,6 +44,7 @@ declare global {
       scan(): Promise<ScanResult>;
       openStore(directory: string, extensionId: string): Promise<void>;
       openExtensionManager(directory: string, extensionId: string): Promise<void>;
+      openExtensionOptions(directory: string, extensionId: string, optionsPage: string): Promise<void>;
       listSets(): Promise<SharedSet[]>;
       saveSet(set: Partial<SharedSet> & Pick<SharedSet, 'name' | 'extensionIds'>): Promise<SharedSet>;
       deleteSet(id: string): Promise<boolean>;

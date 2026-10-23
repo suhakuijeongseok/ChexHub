@@ -98,6 +98,7 @@ function scanExtensions(profileDir) {
           id: entry.name,
           name: localizeName(manifest, latest.dir),
           iconDataUrl: extensionIconDataUrl(manifest, latest.dir),
+          optionsPage: manifest.options_ui?.page || manifest.options_page || '',
           version: manifest.version || latest.name,
           enabled: extensionState.state !== 0,
           fromWebStore: !manifest.update_url || manifest.update_url === CHROME_UPDATE_URL,

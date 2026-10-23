@@ -10,18 +10,6 @@
 
 `확장 찾기`에서는 공식 Chrome Web Store를 ChexHub 내부에서 검색하고 탐색할 수 있습니다. 상세 페이지를 선택한 뒤 대상 프로필을 지정하면 각 프로필의 공식 설치 페이지가 열리며, 최종 권한 승인은 Chrome에서 진행합니다.
 
-## ChexHub Companion
-
-`companion/`에는 현재 Chrome 프로필 안에서 동작하는 Manifest V3 사이드 패널 확장이 포함되어 있습니다. 이 확장을 각 프로필에 한 번 로드하면 Chrome 안에서 해당 프로필의 확장 목록을 확인하고 설정, Web Store, 삭제 화면을 열 수 있습니다.
-
-1. 대상 Chrome 프로필에서 `chrome://extensions`를 엽니다.
-2. 오른쪽 위의 **개발자 모드**를 켭니다.
-3. **압축해제된 확장 프로그램을 로드합니다**를 선택합니다.
-4. `C:\Users\user\hackathon\ChexHub\companion` 폴더를 선택합니다.
-5. 툴바에서 ChexHub Companion을 누르면 사이드 패널이 열립니다.
-
-Companion의 삭제 기능은 Chrome 자체 확인 대화상자를 사용합니다. 다른 확장의 격리된 `chrome.storage` 값은 읽거나 변경하지 않습니다.
-
 ## 실행
 
 ```powershell

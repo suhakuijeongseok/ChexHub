@@ -143,6 +143,14 @@ function App() {
     setToast(`${targets.length}개 프로필에서 Web Store를 열었습니다. ‘Chrome에서 삭제’를 눌러 주세요.`);
   };
 
+  const openSettings = async () => {
+    if (!selectedRow?.optionsPage) return;
+    const targets = (data?.profiles || []).filter((profile) => selectedProfiles.has(profile.directory) && selectedRow.profiles.has(profile.directory));
+    if (!targets.length) return setToast("선택한 프로필에는 이 확장 프로그램이 설치되어 있지 않아요.");
+    for (const profile of targets) await window.chexhub.openExtensionOptions(profile.directory, selectedRow.id, selectedRow.optionsPage);
+    setToast(`${targets.length}개 프로필에서 확장 설정을 열었습니다.`);
+  };
+
   const editSet = (set?: SharedSet) => {
     setActiveSetId(set?.id || "");
     setDraftName(set?.name || "");
@@ -461,6 +469,9 @@ function App() {
               </div>
               <button className="primary" onClick={() => void installMissing()}>
                 누락 프로필에 설치
+              </button>
+              <button className="secondary" onClick={() => void openSettings()} disabled={!selectedRow.optionsPage} title={selectedRow.optionsPage ? "선택한 프로필에서 설정 페이지 열기" : "이 확장은 설정 페이지를 제공하지 않습니다"}>
+                설정 열기
               </button>
               <button className="danger" onClick={() => void removeInstalled()}>
                 설치된 프로필에서 제거

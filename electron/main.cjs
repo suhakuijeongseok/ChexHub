@@ -80,6 +80,18 @@ function openExtensionManagerForProfile(directory, extensionId) {
   return openStoreForProfile(directory, extensionId);
 }
 
+function openExtensionOptionsForProfile(directory, extensionId, optionsPage) {
+  if (!/^(Default|Profile \d+)$/.test(directory)) throw new Error('잘못된 프로필 디렉터리입니다.');
+  if (!/^[a-p]{32}$/.test(extensionId)) throw new Error('잘못된 확장 프로그램 ID입니다.');
+  const page = String(optionsPage || '').replace(/^\/+/, '');
+  if (!page || page.includes('..') || /^[a-z]+:/i.test(page)) throw new Error('이 확장 프로그램에는 설정 페이지가 없습니다.');
+  const executable = chromeExecutable();
+  if (!executable) throw new Error('Chrome 실행 파일을 찾지 못했습니다.');
+  const child = spawn(executable, [`--profile-directory=${directory}`, `chrome-extension://${extensionId}/${page}`], { detached: true, stdio: 'ignore' });
+  child.unref();
+  return true;
+}
+
 function createWindow() {
   const win = new BrowserWindow({
     width: 1440,
@@ -190,6 +202,7 @@ app.whenReady().then(() => {
   ipcMain.handle('chrome:scan', () => scanChrome());
   ipcMain.handle('chrome:open-store', (_event, payload) => openStoreForProfile(payload.directory, payload.extensionId));
   ipcMain.handle('chrome:open-extension-manager', (_event, payload) => openExtensionManagerForProfile(payload.directory, payload.extensionId));
+  ipcMain.handle('chrome:open-extension-options', (_event, payload) => openExtensionOptionsForProfile(payload.directory, payload.extensionId, payload.optionsPage));
   ipcMain.handle('sets:list', () => readSharedSets());
   ipcMain.handle('sets:save', (_event, payload) => saveSharedSet(payload));
   ipcMain.handle('sets:delete', (_event, id) => deleteSharedSet(id));
