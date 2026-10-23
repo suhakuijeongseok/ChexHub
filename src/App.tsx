@@ -470,12 +470,14 @@ function App() {
               <button className="primary" onClick={() => void installMissing()}>
                 누락 프로필에 설치
               </button>
-              <button className="secondary" onClick={() => void openSettings()} disabled={!selectedRow.optionsPage} title={selectedRow.optionsPage ? "선택한 프로필에서 설정 페이지 열기" : "이 확장은 설정 페이지를 제공하지 않습니다"}>
-                설정 열기
-              </button>
               <button className="danger" onClick={() => void removeInstalled()}>
                 설치된 프로필에서 제거
               </button>
+              {selectedRow.optionsPage ? (
+                <button className="secondary" onClick={() => void openSettings()} title="선택한 프로필에서 설정 페이지 열기">
+                  설정 열기
+                </button>
+              ) : null}
               <p className="hint">공식 Web Store에서 설치 또는 제거를 승인해 주세요.</p>
             </>
           ) : (
