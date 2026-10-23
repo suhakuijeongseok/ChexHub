@@ -27,7 +27,7 @@ function ProfileStrip({ profiles, selected, toggle }: { profiles: ChromeProfile[
       {profiles.map((profile) => (
         <label key={profile.directory} className={selected.has(profile.directory) ? "selected" : ""}>
           <input type="checkbox" checked={selected.has(profile.directory)} onChange={() => toggle(profile.directory)} />
-          <span className="avatar">{profile.name.slice(0, 1).toUpperCase()}</span>
+          <span className="avatar">{profile.avatarDataUrl ? <img src={profile.avatarDataUrl} alt="" /> : profile.name.slice(0, 1).toUpperCase()}</span>
           <span>
             <b>{profile.name}</b>
             <small>

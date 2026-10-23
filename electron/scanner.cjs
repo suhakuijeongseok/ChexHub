@@ -56,6 +56,17 @@ function extensionIconDataUrl(manifest, versionDir) {
   return '';
 }
 
+function profileAvatarDataUrl(profileDir) {
+  const candidates = ['Google Profile Picture.png', 'Profile Picture.png', 'Avatar.png'];
+  for (const fileName of candidates) {
+    try {
+      const bytes = fs.readFileSync(path.join(profileDir, fileName));
+      return `data:image/png;base64,${bytes.toString('base64')}`;
+    } catch { /* Try the next known Chrome profile image file. */ }
+  }
+  return '';
+}
+
 function newestVersionDir(extensionDir) {
   try {
     return fs.readdirSync(extensionDir, { withFileTypes: true })
@@ -105,15 +116,17 @@ function scanChrome() {
   const order = localState.profile?.profiles_order || Object.keys(info);
   const profiles = order.filter((directory) => info[directory]).map((directory) => {
     const meta = info[directory];
+    const profileDir = path.join(userDataDir, directory);
     return {
       directory,
       name: meta.name || directory,
       account: meta.user_name || '',
       managed: Boolean(meta.is_managed),
-      extensions: scanExtensions(path.join(userDataDir, directory)),
+      avatarDataUrl: profileAvatarDataUrl(profileDir),
+      extensions: scanExtensions(profileDir),
     };
   });
   return { userDataDir, lastUsed: localState.profile?.last_used || '', profiles };
 }
 
-module.exports = { chromeUserDataPath, extensionIconDataUrl, localizeName, scanChrome, scanExtensions };
+module.exports = { chromeUserDataPath, extensionIconDataUrl, localizeName, profileAvatarDataUrl, scanChrome, scanExtensions };

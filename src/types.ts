@@ -12,6 +12,7 @@ export type ChromeProfile = {
   name: string;
   account: string;
   managed: boolean;
+  avatarDataUrl: string;
   extensions: ExtensionInfo[];
 };
 
